@@ -3,6 +3,7 @@ const cors=require('cors')
 const axios=require('axios')
 const app=express()
 const bodyparser=require('body-parser')
+const accesstoken='eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzA2MzQ2MzcyLjEwNjQ3MywiaWF0IjoxNzA2MjU5OTcyLjEwNjQ3MiwianRpIjoiRXFOcHB1bDc5a3puZG5HckhnUjhNNWRvQV82ZEV3IiwiY2lkIjoiOFV4Z0lHMXNnQnlIS0NkRGJqV3ZldyIsImxpZCI6InQyX3ZkdXh5cXI3IiwiYWlkIjoidDJfdmR1eHlxcjciLCJsY2EiOjE2NzI3NTQ5ODMwODcsInNjcCI6ImVKeUtWdEpTaWdVRUFBRF9fd056QVNjIiwiZmxvIjo5fQ.kYlINEVqjRNZF_vYPxf4OUzvmgUCnCnDMotZkxDe3DcpP2gqWjHT72u993rpj5SzRvVL5NUppRopUF1EeMbQbGMBiWFtVns7sE09mrxEanLhjZtRWtj7rILqZkWSxLP2x31kgmDQk2Caamx7iX4Y_iaabU5P0OLy5xQsIqj_bAPw9kd7JtmHBagaNgTIkUxswMu9qGThkED-SiGhEKqB9CZ20fRRossB0EEqGUZnb7nXVpsVEBeBd1Iz4bw8S0IRK4R35t_knMxrlUgy74GfLMSEtQAX_9-j8N4x2NXUzJiA4Cf21w2WDbQvXurRZE5sF221Y58Xtn4iqGFO9Hu8zw'
 app.set('view engine','ejs');
 
 app.use(cors())
@@ -15,7 +16,7 @@ app.get('/',async(req,res)=>{
           response=await axios.get(`https://oauth.reddit.com/r/dankmemes/random`,{
             method:'GET',
             headers:{
-            'Authorization':'bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzA2MjU5ODc5LjgwNDYxNSwiaWF0IjoxNzA2MTczNDc5LjgwNDYxNCwianRpIjoicS1Ga3hzMGpBbG9jSUZMYU9IX0RpdF9vb1ZCOHZnIiwiY2lkIjoiOFV4Z0lHMXNnQnlIS0NkRGJqV3ZldyIsImxpZCI6InQyX3ZkdXh5cXI3IiwiYWlkIjoidDJfdmR1eHlxcjciLCJsY2EiOjE2NzI3NTQ5ODMwODcsInNjcCI6ImVKeUtWdEpTaWdVRUFBRF9fd056QVNjIiwiZmxvIjo5fQ.Fa_y5dLn-aBZynjAQVWZ3V2TYkq_cnt7VUVw9REXKzmThD9eNkdn1X-1B4qzbRra4UQZ7Z-_l6VvBLhk-qSpKpgLGlAf-gzrwAD7XtdSDfcVv8Ovq6I2n6LDdEXouF4QHWI9JCrWvxuqYupKPWSaO2Yn7IhskKiIDtW9T3u0M6C22M173Lq0KyDjolSbqY8WEb3zuEIN1hjMUUUGW1yxtvIyaHULw4t4a7sncINJLqS41edTvwO0G492m8GxkFByG9Ws4bODY3yV-Lh_KOPfNMfVhITAQNkPZJ-w5__uzCCp_lsijwcXrdTdzEqVYGqZvSHkIy5ookfPjOknh2WVeQ',
+            'Authorization':`bearer ${accesstoken}`,
             'User-Agent':'test/0.1'
             }})
         }while(response.data[0].data.children[0].data.post_hint != 'image')
@@ -38,7 +39,7 @@ app.get('/:sub',async(req,res)=>{
             response=await axios.get(`https://oauth.reddit.com/r/${sub}/random`,{
               method:'GET',
               headers:{
-                  'Authorization':'bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzA2MjU5ODc5LjgwNDYxNSwiaWF0IjoxNzA2MTczNDc5LjgwNDYxNCwianRpIjoicS1Ga3hzMGpBbG9jSUZMYU9IX0RpdF9vb1ZCOHZnIiwiY2lkIjoiOFV4Z0lHMXNnQnlIS0NkRGJqV3ZldyIsImxpZCI6InQyX3ZkdXh5cXI3IiwiYWlkIjoidDJfdmR1eHlxcjciLCJsY2EiOjE2NzI3NTQ5ODMwODcsInNjcCI6ImVKeUtWdEpTaWdVRUFBRF9fd056QVNjIiwiZmxvIjo5fQ.Fa_y5dLn-aBZynjAQVWZ3V2TYkq_cnt7VUVw9REXKzmThD9eNkdn1X-1B4qzbRra4UQZ7Z-_l6VvBLhk-qSpKpgLGlAf-gzrwAD7XtdSDfcVv8Ovq6I2n6LDdEXouF4QHWI9JCrWvxuqYupKPWSaO2Yn7IhskKiIDtW9T3u0M6C22M173Lq0KyDjolSbqY8WEb3zuEIN1hjMUUUGW1yxtvIyaHULw4t4a7sncINJLqS41edTvwO0G492m8GxkFByG9Ws4bODY3yV-Lh_KOPfNMfVhITAQNkPZJ-w5__uzCCp_lsijwcXrdTdzEqVYGqZvSHkIy5ookfPjOknh2WVeQ',
+                  'Authorization':`bearer ${accesstoken}`,
                   'User-Agent':'test/0.1'
               }})
              
