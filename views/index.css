@@ -371,7 +371,7 @@ img{
     border-radius: 12px;
     overflow: hidden;
     background: #3D3D3D;
-    padding: 9px;
+    padding: 12px;
     cursor: text;
   }
   
@@ -470,6 +470,7 @@ img{
     transition: var(--btn-transition);
     overflow: hidden;
     box-shadow: var(--btn-shadow);
+    border-radius: 10px;
   }
   
   .ui-btn span {

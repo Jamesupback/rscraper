@@ -1,6 +1,7 @@
 require ('dotenv').config();
 const express=require('express')
 const cors=require('cors')
+const path=require('path')
 const axios=require('axios')
 const app=express()
 const bodyparser=require('body-parser')
@@ -48,7 +49,7 @@ app.get('/:sub',async(req,res)=>{
         }
         else
         {
-            let sub=req.params.sub
+            let sub=req.params.sub.toLowerCase().trim()
             url=`https://oauth.reddit.com/r/${sub}/?limit=100`
         }
         do{
@@ -65,7 +66,7 @@ app.get('/:sub',async(req,res)=>{
               res.render('index',{imageurl:data.data.children[random].data.url_overridden_by_dest})   
     }catch(error){
         console.log("axios fetch failed")
-        res.status(500).send('<h3>Internal Server Error.<br/><strong>Note:</strong> Only search for known subreddits.</h3>');
+        res.status(500).sendFile(path.join(__dirname,'views','error.html'));
     }
 })
 app.listen('3000',()=>{
