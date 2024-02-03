@@ -5,12 +5,39 @@ const path=require('path')
 const axios=require('axios')
 const app=express()
 const bodyparser=require('body-parser')
-const accesstoken=process.env.ACCESS_TOKEN
+let accesstoken
 app.set('view engine','ejs');
 
 app.use(cors())
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(express.static('views'));
+
+function accesstokenfetch(){
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDDIT_USERNAME = process.env.REDDIT_USERNAME;
+const REDDIT_PASSWORD = process.env.REDDIT_PASSWORD;
+
+axios.post('https://www.reddit.com/api/v1/access_token', {
+    grant_type: 'password',
+    username: REDDIT_USERNAME,
+    password: REDDIT_PASSWORD
+}, {
+    auth: {
+        username: CLIENT_ID,
+        password: CLIENT_SECRET
+    },
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+})
+.then(response => {
+    accesstoken = response.data.access_token;
+})
+.catch(error => {
+    console.error('Error generating OAuth access token:', error);
+});
+}
 app.get('/',async(req,res)=>{
     try{
         let response
@@ -70,5 +97,6 @@ app.get('/:sub',async(req,res)=>{
     }
 })
 app.listen('3000',()=>{
+    accesstokenfetch()
     console.log("listening to port 3000")
 })
